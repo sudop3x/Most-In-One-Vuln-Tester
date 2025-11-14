@@ -27,21 +27,23 @@ A modular and easy-to-use web vulnerability testing tool designed to help securi
    
 2.Run the application:
 
-    ```bash
+    ```
     
     python app.py
 
 3.Access the development server in your browser at:
-
+ ```
  http://127.0.0.1:5000
-
+```
 4. Log in with the following credentials:
    
- ```bash
+ ```
+
+
 Username: peniel
 Password: peniel
 
-
+```
 5.Usage
 
 After login, use the web interface to scan authorized web applications for vulnerabilities.
@@ -52,15 +54,14 @@ Requirements
 
 Python 3.x
 
-Recommended to use a virtual environment
-
-(Add any Python dependencies if applicable, or provide a requirements.txt file)
+Recommended to use a virtual environment like VENV
 
 Disclaimer
 
+ ```
 This tool is intended for educational and authorized testing only.
 Do NOT use this tool to scan websites or applications without explicit permission. Unauthorized scanning is illegal and unethical.
-
+````
 Contribution
 
 Contributions and suggestions are welcome!
