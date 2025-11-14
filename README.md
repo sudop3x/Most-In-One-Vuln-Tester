@@ -27,8 +27,6 @@ A modular and easy-to-use web vulnerability testing tool designed to help securi
    
 2.Run the application:
 
-    ```
-    
     python app.py
 
 3.Access the development server in your browser at:
