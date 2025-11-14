@@ -1,0 +1,16 @@
+Web Vulnerability Checker
+
+This Web Vulnerability Checker is a simple and modular tool designed to help security enthusiasts and professionals identify common web application vulnerabilities in a safe, controlled environment. It automates the detection of typical issues such as:
+
+SQL Injection (SQLi)
+Cross-Site Scripting (XSS)
+Directory Traversal
+Security misconfigurations
+
+The tool works by sending crafted HTTP requests to the target URL and analyzing the responses for signs of vulnerabilities. It’s built using Python and leverages popular libraries like requests for HTTP handling and BeautifulSoup for response parsing.
+
+Features
+Easy-to-use command-line interface
+Modular design for adding new vulnerability checks
+Clear, color-coded output for quick analysis
+Supports scanning authorized local or test applications only
