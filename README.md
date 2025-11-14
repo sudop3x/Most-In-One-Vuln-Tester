@@ -23,7 +23,7 @@ A modular and easy-to-use web vulnerability testing tool designed to help securi
 
    ```bash
    git clone https://github.com/sudop3x/Most-In-One-Vuln-Tester.git
-   cd Most-In-One-Vuln-Tester
+   cd Most-In-One-Vuln-Tester/Tool
    
 2.Run the application:
 
@@ -36,11 +36,13 @@ A modular and easy-to-use web vulnerability testing tool designed to help securi
  http://127.0.0.1:5000
 
 4. Log in with the following credentials:
-
+   
+ ```bash
 Username: peniel
 Password: peniel
 
-Usage
+
+5.Usage
 
 After login, use the web interface to scan authorized web applications for vulnerabilities.
 
