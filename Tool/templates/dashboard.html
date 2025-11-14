@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<title>Web Scanner Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<style>
+
+.test-card { animation: fadeInUp 0.8s ease forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.details { max-height: 0; overflow: hidden; transition: all 0.5s ease; }
+.details.show { max-height: 500px; padding: 1rem; }
+
+
+.glow-btn {
+  box-shadow: 0 0 15px rgba(229, 231, 235, 0.6), 0 0 25px rgba(224, 216, 176, 0.8);
+  transition: all 0.3s ease-in-out;
+}
+.glow-btn:hover { box-shadow: 0 0 25px rgba(229, 231, 235, 0.9), 0 0 35px rgba(224, 216, 176, 1); transform: scale(1.05); }
+
+
+.hidden-file { display: none; }
+</style>
+</head>
+
+<body id="body" class="min-h-screen transition-colors duration-500 bg-[#f5f5dc] text-[#0f172a] dark:bg-gradient-to-br dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] dark:text-[#f5f5dc]">
+<div class="max-w-7xl mx-auto p-10">
+
+
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-[#f5f5dc] to-[#e0d8b0] bg-clip-text text-transparent">
+      🌐 All-in-One Web Vulnerability Scanner
+    </h1>
+    <div class="flex items-center gap-4">
+    
+      <a href="{{ url_for('logout') }}" class="glow-btn px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white font-bold">Logout</a>    </div>
+  </div>
+  
+
+<div class="flex gap-4 mb-6">
+  <a href="{{ url_for('dashboard', section='scan') }}" class="px-4 py-2 rounded-lg font-bold bg-gradient-to-r from-green-400 to-blue-500 text-white hover:scale-105 transition">Scan</a>
+  <a href="{{ url_for('dashboard', section='history') }}" class="px-4 py-2 rounded-lg font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-white hover:scale-105 transition">History</a>
+  <a href="{{ url_for('profile_page') }}" class="px-4 py-2 rounded-lg font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:scale-105 transition">Profile</a>
+</div>
+
+{% if section == 'scan' %}
+
+{% elif section == 'history' %}
+<div class="bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-lg">
+  <h2 class="text-2xl font-bold mb-4">🕒 Scan History</h2>
+  {% if scan_history %}
+    <table class="min-w-full border-collapse">
+      <thead>
+        <tr class="bg-gradient-to-r from-[#f5f5dc] to-[#e0d8b0] text-[#0f172a]">
+          <th class="px-4 py-2">#</th>
+          <th class="px-4 py-2">Website</th>
+          <th class="px-4 py-2">Scan Time</th>
+          <th class="px-4 py-2">Total Scan Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for scan in scan_history %}
+        <tr class="border-b border-gray-600 hover:bg-white/10 dark:hover:bg-gray-800 transition">
+          <td class="px-4 py-2">{{ loop.index }}</td>
+          <td class="px-4 py-2">{{ scan.url }}</td>
+          <td class="px-4 py-2">{{ scan.timestamp }}</td>
+          <td class="px-4 py-2">{{ scan.time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No scans yet.</p>
+  {% endif %}
+</div>
+{% endif %}
+<header>
+  <strong id="typing"></strong>
+</header>
+
+<script>
+  const text = "SCANNERS ARE DETECTIVES , NOT EXPLOITERS!";
+  const el = document.getElementById("typing");
+  let i = 0;
+
+  function type() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, 100); 
+    }
+  }
+
+  type();
+</script>
+ <br>
+
+  <form method="POST" class="flex gap-3 mb-8 bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-lg">
+    <input id="target-url" name="url" type="url" placeholder="Enter URL to scan (http:// OR https://)" class="flex-1 p-3 rounded-lg text-black placeholder:text-blue-400 placeholder:font-bold focus:outline-none focus:ring-2 focus:ring-[#e0d8b0]" />
+    <button type="submit" class="glow-btn bg-gradient-to-r from-[#f5f5dc] to-[#e0d8b0] text-[#0f172a] px-6 py-3 rounded-xl font-bold shadow transition">🚀 Start Scan</button>
+  </form>
+
+  {% if error %}
+  <div class="mb-5 p-4 bg-red-500/20 border border-red-500 text-red-400 rounded-lg shadow">
+    {{ error }}
+  </div>
+  {% endif %}
+
+  {% if url %}
+  <div class="mb-8 bg-white/10 backdrop-blur-lg p-5 rounded-xl shadow-md">
+      <p><strong>🌍 Website:</strong> {{ url }}</p>
+      <p><strong>⏱ Total Scan Time:</strong> <span id="scan-timer">3.00</span> s</p>
+  </div>
+  {% endif %}
+
+
+  <div id="progress" class="w-full bg-gray-700 rounded-xl h-6 mb-8 hidden">
+    <div id="progress-bar" class="bg-gradient-to-r from-[#f5f5dc] to-[#e0d8b0] h-6 rounded-xl w-0 transition-all"></div>
+  </div>
+
+
+  {% if results %}
+  <div class="overflow-x-auto bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-lg">
+    <table class="min-w-full border-collapse">
+      <thead>
+        <tr class="bg-gradient-to-r from-[#f5f5dc] to-[#e0d8b0] text-[#0f172a]">
+          <th class="px-4 py-3 text-left">#</th>
+          <th class="px-4 py-3 text-left">Test Name</th>
+          <th class="px-4 py-3 text-left">Result</th>
+          <th class="px-4 py-3 text-left">Time Taken</th>
+          <th class="px-4 py-3 text-left">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for test in results %}
+        <tr class="test-card border-b border-gray-600 hover:bg-white/10 dark:hover:bg-gray-800 transition">
+          <td class="px-4 py-2">{{ loop.index }}</td>
+          <td class="px-4 py-2">{{ test.test_name }}</td>
+          <td class="px-4 py-2 font-bold {% if test.result == 'Safe' %}text-green-400{% elif test.result == 'Vulnerable' %}text-red-400{% else %}text-yellow-400{% endif %}">{{ test.result }}</td>
+          <td class="px-4 py-2">{{ test.time_taken }}</td>
+          <td class="px-4 py-2">
+            <button class="expand-btn glow-btn bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-[#f5f5dc] px-3 py-1 rounded-lg">🔎 View Details</button>
+            <div class="details mt-3 bg-[#e0d8b0] text-[#0f172a] rounded-lg shadow-inner">
+              <p><strong>📖 Definition:</strong> {{ test.definition }}</p>
+              <p><strong>⚠ Impact:</strong> {{ test.impact }}</p>
+              <p><strong>🛡 Mitigation:</strong> {{ test.mitigation }}</p>
+              <p><strong>🧪 Payload:</strong> {{ test.payload }}</p>
+              <p><strong>📝 Notes:</strong> {{ test.notes }}</p>
+
+             
+              {% if test.test_name in ['robots.txt Check','sitemap.xml Check'] %}
+              <button class="reveal-btn glow-btn mt-2 px-3 py-1 rounded-lg bg-gradient-to-r from-red-500 to-red-700 text-white">Reveal {{ test.test_name }}</button>
+              <pre class="hidden-file mt-2 p-2 bg-gray-800 text-white rounded">{{ test.payload }}</pre>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+
+simulateProgress();
+
+
+document.querySelectorAll('.expand-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const details = btn.nextElementSibling;
+    details.classList.toggle('show');
+  });
+});
+
+
+document.querySelectorAll('.reveal-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const file = btn.nextElementSibling;
+    file.classList.toggle('hidden-file');
+  });
+});
+
+
+document.getElementById('toggle-dark').addEventListener('click', () => {
+  document.getElementById('body').classList.toggle('dark');
+});
+</script>
+</body>
+</html>

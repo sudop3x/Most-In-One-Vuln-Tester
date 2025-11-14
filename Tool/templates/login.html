@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<title>Login - Web Scanner</title>
+</head>
+<body class="bg-[#0f172a] flex items-center justify-center h-screen">
+<div class="bg-[#f5f5dc] p-10 rounded-xl shadow-lg w-full max-w-md">
+  <h1 class="text-3xl font-bold mb-5 text-center text-[#0f172a]">Login</h1>
+  {% if error %}
+  <p class="text-red-600 mb-3">{{ error }}</p>
+  {% endif %}
+  <form method="POST">
+    <input type="text" name="username" placeholder="Username" required
+           class="w-full p-3 border rounded mb-5 focus:outline-none focus:ring-2 focus:ring-[#0f172a]">
+    <input type="password" name="password" placeholder="Password" required
+           class="w-full p-3 border rounded mb-5 focus:outline-none focus:ring-2 focus:ring-[#0f172a]">
+    <button type="submit" class="w-full bg-[#0f172a] text-[#f5f5dc] p-3 rounded hover:bg-[#1e293b] transition">
+      Login
+    </button>
+  </form>
+</div>
+</body>
+</html>

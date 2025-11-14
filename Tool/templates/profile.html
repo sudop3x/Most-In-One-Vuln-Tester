@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<title>User Profile</title>
+<style>
+    .glow-btn {
+        box-shadow: 0 0 10px rgba(224,216,176,0.7), 0 0 20px rgba(224,216,176,0.5);
+        transition: all 0.3s ease-in-out;
+    }
+    .glow-btn:hover {
+        box-shadow: 0 0 20px rgba(224,216,176,1), 0 0 30px rgba(224,216,176,0.8);
+        transform: scale(1.05);
+    }
+</style>
+</head>
+<body class="bg-[#0f172a] text-[#f5f5dc] min-h-screen">
+<div class="max-w-2xl mx-auto p-10">
+
+    <h1 class="text-3xl font-bold mb-6">👤 Profile Management</h1>
+
+    {% if message %}
+    <div class="mb-5 p-4 bg-green-500/20 border border-green-400 text-green-200 rounded">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    <form method="POST" class="mb-6 bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg">
+        <h2 class="text-xl font-semibold mb-3">Create New User</h2>
+        <input type="text" name="username" placeholder="Username" class="mb-3 p-2 rounded w-full text-black">
+        <input type="password" name="password" placeholder="Password" class="mb-3 p-2 rounded w-full text-black">
+        <input type="hidden" name="action" value="create">
+        <button type="submit" class="glow-btn bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded font-bold">Create User</button>
+    </form>
+
+    <form method="POST" class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg">
+        <h2 class="text-xl font-semibold mb-3">Update Existing User Password</h2>
+        <input type="text" name="username" placeholder="Username" class="mb-3 p-2 rounded w-full text-black">
+        <input type="password" name="password" placeholder="New Password" class="mb-3 p-2 rounded w-full text-black">
+        <input type="hidden" name="action" value="update">
+        <button type="submit" class="glow-btn bg-gradient-to-r from-green-400 to-teal-500 text-white px-4 py-2 rounded font-bold">Update Password</button>
+    </form>
+
+    <div class="mt-6">
+        <a href="{{ url_for('dashboard') }}" class="glow-btn px-4 py-2 rounded bg-blue-500 text-white">Back to Dashboard</a>
+    </div>
+</div>
+</body>
+</html>

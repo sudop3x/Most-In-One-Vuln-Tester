@@ -1,0 +1,22 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.test-card {
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    transform: translateY(10px);
+}
+
+.test-card.opacity-100 {
+    opacity: 1 !important;
+    transform: translateY(0px);
+}
+
+.details { display: none; }
+.details:not(.hidden) { display: block; }
+.found-list ul { max-height: 200px; overflow:auto; padding-left: 1rem; }
+
+
+.expand-btn {
+    cursor: pointer;
+}
